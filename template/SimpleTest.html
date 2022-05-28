@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+
+{% block titleblock %}| Simple{% endblock titleblock %}
+
+{% block styleblock %}
+
+#show_data{
+    text-align: center;
+    font-size: xx-large;
+    margin:10px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+#txt{
+    font-size: x-large  ;
+    border: 1px solid black;
+    outline: none;
+}
+
+#submit_btn{
+    font-size:1.3em;
+    border-radius: 10px;
+    background-color: lawngreen;
+    margin: 10px;
+    cursor: pointer;
+}
+
+#TIMER{
+    text-align: center;
+    font-size: larger
+}
+{% endblock styleblock %}
+
+{% block bodyblock %}
+<p id="show_data">Simple Test</p>
+
+<textarea name="txt" id="txt" cols="30" rows="10"></textarea>
+
+<Button id="submit_btn">Submit</Button>
+
+<p id="TIMER">Timer - </p>
+{% endblock bodyblock %}
+
+{% block Scriptblock %}
+<script>
+    alert("The Simple level Typing Test will start and Timer will be for 60 Seconds")
+    let times = 0
+    // Timer
+    let i = 0;
+    let clock = setInterval(() => {
+        document.getElementById("TIMER").innerHTML = `Timer - ${i}`;
+        i+=1
+        if (i == 61){
+            clearInterval(clock)
+            alert(`Number of Success - ${times}`)
+            window.location.assign("/")
+        }
+    }, 1000);
+    // program to generate random strings
+
+    // declare all characters
+    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+
+    function generateString(length) {
+        let result = ' ';
+        const charactersLength = characters.length;
+        for ( let i = 0; i < length; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        
+        return result;
+    }
+
+    document.getElementById("show_data").innerHTML = generateString(5);
+
+    // Click Event
+    document.getElementById("submit_btn").addEventListener("click", () => {
+        // alert(document.getElementById("txt").value)
+        // alert(document.getElementById("show_data").innerHTML)
+        if(document.getElementById("txt").value == document.getElementById("show_data").innerHTML.trim()){
+            alert("Great work!")
+            document.getElementById("show_data").innerHTML = generateString(5);
+            document.getElementById("txt").value = "";
+            times+=1;
+        }
+        else{
+            alert("Something is wrong!")
+        }
+    })
+
+    document.getElementById("txt").addEventListener("keypress", (e) => {
+        if(e.keyCode == 13){
+            e.preventDefault()
+            document.getElementById("submit_btn").click()
+        }
+    })
+
+</script>
+{% endblock Scriptblock %}
